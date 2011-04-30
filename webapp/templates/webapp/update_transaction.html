@@ -1,0 +1,60 @@
+{% extends "layout_transactions.html" %}
+{% load humanize %}
+{% block content %}
+<div class="block">
+	{% if flash %}
+	<div class="flash">
+		{% for type, message in flash.items %}
+			<div class="message {{ type }}">
+				<p>{{ message|safe }}</p>
+			</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	<div class="secondary-navigation">
+		<ul class="wat-cf">
+			<li class="first"><a href="{% url search-txn %}">Search Transaction</a></li>
+			<li class="active"><a href="javascript:;">Update Transaction</a></li>
+		</ul>
+	</div>
+	<div class="content">
+		<h2 class="title">Update Transaction</h2>
+		<div class="inner">
+			<form action="{% url update-txn txn.tpin %}" method="post" class="form">
+				<div class="group">
+					<label class="label">Transaction Reference</label>
+					<input class="text_field" type="text" disabled="disabled" value="{{ txn.tpin }}" />
+				</div>
+				<div class="group">
+					<label class="label">Identifier</label>
+					<input class="text_field" type="text" disabled="disabled" value="{{ txn.identifier }}" />
+				</div>
+				<div class="group">
+					<label class="label">Institution</label>
+					<input class="text_field" type="text" disabled="disabled" value="{{ txn.institution }}" />
+				</div>
+				<div class="group">
+					<label class="label">Amount</label>
+					<input class="text_field" type="text" disabled="disabled" value="&#x20a6 {{ txn.amount|intcomma }}" />
+				</div>
+				<div class="group">
+					<label class="label">Teller No.</label>
+					<input class="text_field" type="text" name="{{ form.teller_no.name }}" value="{{ form.initial.teller_no }}" />
+					<span class="description">The teller number on the payment slip</span>
+				</div>
+				<div class="group">
+					<label class="label">Paid</label>
+					<input class="text_field" style="display:block" type="checkbox" name="{{ form.paid.name }}" value="True"{% if form.initial.paid %} checked="checked"{% endif %} />
+					<span class="description">Tick this box to mark this transaction as paid for</span>
+				</div>
+				<div class="group navform wat-cf">
+					<button class="button" type="submit">
+						<img src="/assets/images/icons/tick.png" alt="Save"> Save
+					</button>
+					<a href="{% url search-txn %}" class="button"><img src="/assets/images/icons/cross.png" alt="Cancel"> Cancel</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

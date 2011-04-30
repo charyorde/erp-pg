@@ -1,0 +1,39 @@
+{% extends "meta.html" %}
+{% load settings %}
+{% block body %}
+	<div id="container">
+    <div id="header">
+      <h1><a href="/">{% setting APP_NAME %}</a></h1>
+      <div id="user-navigation">
+        <ul class="wat-cf">
+          <li><a href="/logout" class="logout">Logout</a></li>
+        </ul>
+      </div>
+      <div id="main-navigation">
+        <ul class="wat-cf">
+				{% block main-navigation %}
+				<li class="first"><a href="{% url search-txn %}">Transactions</a></li>
+				{% if perms.auth.change_user %}
+				<li class="active"><a href="{% url list-users %}">Users</a></li>
+				{% endif %}
+				{% endblock %}
+				</ul>
+      </div>
+    </div>    
+    <div id="wrapper" class="wat-cf">
+      <div id="main">
+        {% block content %}{% endblock %}
+        <div id="footer">
+          <div class="block">
+            <p>Copyright &copy; {% now "Y" %} {% setting APP_NAME %}</p>
+          </div>      
+        </div>
+      </div>
+      <div id="sidebar">
+				{% block sidebar %}
+        {% include "sidebar.html" %}
+				{% endblock %}
+      </div>
+    </div>    
+  </div>
+{% endblock %}

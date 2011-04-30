@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load settings %}
+{% block content %}
+<h1>{% setting APP_NAME %}</h1>
+<div class="block" id="block-login">
+  <h2>Sign In</h2>        
+  <div class="content login">
+		{% if form.errors %}
+    <div class="flash">
+      <div class="message error">
+        <p>Your username and password didn't match.<br />Please try again.</p>
+      </div>
+    </div>
+		{% endif %}
+		<form action="{% url django.contrib.auth.views.login %}" method="post" accept-charset="utf-8">
+			{% csrf_token %}
+      <div class="group wat-cf">
+        <div class="left">
+          <label class="label right">{{ form.username.label }}</label>
+        </div>
+        <div class="right">
+					<input type="text" name="{{ form.username.name }}" value="{{ form.initial.username }}">
+        </div>              
+      </div>
+      <div class="group wat-cf">
+        <div class="left">
+          <label class="label right">{{ form.password.label }}</label>
+        </div>
+        <div class="right">
+					<input type="password" name="{{ form.password.name }}" value="{{ form.initial.password }}">
+        </div>              
+      </div>
+      <div class="group navform wat-cf">
+        <div class="right">
+          <input type="submit" class="button" value="Sign In &rarr;" />
+        </div>
+      </div>            
+		</form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div class="block">
+  <h3>{{ user.get_profile.financial_institution|default:"&nbsp;" }}</h3>
+	<div class="content">
+		<h4>Welcome{% if user.first_name %}, <strong>{{ user.first_name }} {{ user.last_name }}</strong>{% endif %}</h4>
+	</div>
+	<ul class="navigation">
+		<li><a href="{% url logout %}">Logout</a></li>
+	</ul>
+</div>

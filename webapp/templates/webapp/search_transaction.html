@@ -1,0 +1,36 @@
+{% extends "layout_transactions.html" %}
+{% block content %}
+<div class="block">
+	{% if flash %}
+	<div class="flash">
+		{% for type, message in flash.items %}
+			<div class="message {{ type }}">
+				<p>{{ message|safe }}</p>
+			</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	<div class="secondary-navigation">
+		<ul class="wat-cf">
+			<li class="first active"><a href="{% url search-txn %}">Search Transaction</a></li>
+		</ul>
+	</div>
+	<div class="content">
+		<h2 class="title">Search Transaction</h2>
+		<div class="inner">
+			<form action="{% url search-txn %}" method="post" class="form">
+				{% csrf_token %}
+				<div class="group">
+					<label class="label">Identifier</label>
+					<input class="text_field" type="text" name="identifier" value="" />
+				</div>
+				<div class="group navform wat-cf">
+					<button class="button" type="submit">
+						<img src="/assets/images/icons/magnifier-left.png" /> Search
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

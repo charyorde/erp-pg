@@ -1,0 +1,16 @@
+{% load settings %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% setting APP_NAME %}{% if page_title %} - {{ page_title }}{% endif %}</title>
+	<link rel="stylesheet" href="/assets/css/base.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/assets/css/themes/amro/style.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/assets/css/override.css" type="text/css" media="screen" charset="utf-8">
+	{% block javascripts %}
+	{% endblock %}
+</head>
+<body>
+{% block body %}
+{% endblock %}
+</body>
+</html>

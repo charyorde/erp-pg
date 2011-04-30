@@ -1,0 +1,61 @@
+{% extends "layout_user.html" %}
+{% load humanize %}
+{% block content %}
+<div class="block">
+	{% if flash %}
+	<div class="flash">
+		{% for type, message in flash.items %}
+			<div class="message {{ type }}">
+				<p>{{ message|safe }}</p>
+			</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	<div class="secondary-navigation">
+		<ul class="wat-cf">
+			<li class="first"><a href="{% url list-users %}">Bank Tellers</a></li>
+			<li><a href="{% url add-user %}">Create Teller</a></li>
+			<li class="active"><a href="{% url update-user user.pk %}">Update Teller</a></li>
+		</ul>
+	</div>
+	<div class="content">
+		<h2 class="title">Update Teller</h2>
+		<div class="inner">
+			<form action="{% url update-user user.pk %}" method="post" class="form">
+				<div class="group">
+					<label for="username" class="label">Username</label>
+					<input class="text_field" type="text" disabled="disabled" value="{{ user.username }}" />
+				</div>
+				<div class="group">
+					<label for="{{ form.password.name }}" class="label">{{ form.password.label }}</label>
+					{{ form.password }}
+					{{ form.password.help_text }}
+				</div>
+				<div class="group">
+					<label for="{{ form.password_verify.name }}" class="label">{{ form.password_verify.label }}</label>
+					{{ form.password_verify }}
+					{{ form.password_verify.help_text }}
+				</div>
+				<div class="group">
+					<label for="{{ form.first_name.name }}" class="label">{{ form.first_name.label }}</label>
+					<input class="text_field" type="text" name="{{ form.first_name.name }}" value="{{ user.first_name }}" />
+				</div>
+				<div class="group">
+					<label for="{{ form.last_name.name }}" class="label">{{ form.last_name.label }}</label>
+					<input class="text_field" type="text" name="{{ form.last_name.name }}" value="{{ user.last_name }}" />
+				</div>
+				<div class="group">
+					<label for="{{ form.email.name }}" class="label">{{ form.email.label }}</label>
+					<input class="text_field" type="text" name="{{ form.email.name }}" value="{{ user.email }}" />
+				</div>
+				<div class="group navform wat-cf">
+					<button class="button" type="submit">
+						<img src="/assets/images/icons/tick.png" alt="Save"> Save
+					</button>
+					<a href="{% url list-users %}" class="button"><img src="/assets/images/icons/cross.png" alt="Cancel"> Cancel</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
