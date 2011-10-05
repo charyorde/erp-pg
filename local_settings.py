@@ -31,4 +31,5 @@ MEDIA_URL = ''
 
 TEMPLATE_DIRS = (
 #    "/home/webapp/projects/paygw/webapp/templates",
+#'/c:/wamp/www/edupay/webapp/templates'
 )

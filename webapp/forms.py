@@ -1,10 +1,23 @@
 from django import forms
 from models import *
+from django.forms.models import ModelChoiceField
+from django.forms import Select
+
+class BranchModelChoiceField(ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj
 
 class TransactionUpdateForm(forms.ModelForm):
+    branchqs = Branch.objects.values_list(u'name_branch', flat=True)
+    branch_name = BranchModelChoiceField(branchqs)
+    #branch_name = forms.CharField(required=True,widget=forms.TextInput)
+    #branch_name_new = forms.CharField(required=True, widget=Select(choices={'BR_CODE1': 'Headquarters, Danmole Street VI','BR_CODE2': 'Usman Dan Fodio University Branch'}))
     class Meta:
         model = Transaction
         fields = ('teller_no', 'paid')
+        """widgets = {
+            'branch_name_new': Select(choices={'BR_CODE1': 'Headquarters, Danmole Street VI','BR_CODE2': 'Usman Dan Fodio University Branch'}),
+        }"""
 
 class UserCreationForm(forms.Form):
     username = forms.CharField(required=True, label="Username", max_length=30, min_length=3, widget=forms.TextInput(attrs={'autocomplete': 'off','class': 'text_field',}), 

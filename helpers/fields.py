@@ -1,4 +1,5 @@
 from django.db import models
+#from uuid import get_hex
 from uuid import uuid4
 
 class UUIDField(models.CharField):
@@ -10,7 +11,10 @@ class UUIDField(models.CharField):
     def pre_save(self, model_instance, add):
         if add:
             value = uuid4().get_hex()
-            setattr(model_instance, self.attname, value)
+            #value = "010485".join(get_hex());
+            #value = md5("010485")
+            # assigns the uuid4 value to the UUIDField. This is similar to saying model_instance.self.attname = value
+            setattr(model_instance, self.attname, value) 
             return value
         else:
             return super(models.CharField, self).pre_save(model_instance, add)

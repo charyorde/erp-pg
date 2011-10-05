@@ -33,6 +33,15 @@
 					<label class="label">Institution</label>
 					<input class="text_field" type="text" disabled="disabled" value="{{ txn.institution }}" />
 				</div>
+                                <div class="group">
+					<!--<label class="label">Branch name</label>
+					<input class="text_field" type="text" disabled="disabled" value="" />-->
+                                        <label class="label" for="id_branch_name">Branch name: </label>
+                                        {{form.branch_name}}
+                                        <!--<select name="branch_name" class="form-select " id="id_branch_name" >
+                                            <option value="0">Incomplete grade</option>
+                                        </select>-->
+				</div>
 				<div class="group">
 					<label class="label">Amount</label>
 					<input class="text_field" type="text" disabled="disabled" value="&#x20a6 {{ txn.amount|intcomma }}" />

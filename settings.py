@@ -50,7 +50,7 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/assets/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -64,7 +64,7 @@ SECRET_KEY = 's9v%mpu_uat#=8zv=mm#13^^2--)!us&#zt!bal2_=0!es^48a'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+#    'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -97,6 +97,9 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    #'admin_tools.theming',
+    #'admin_tools.menu',
+    #'admin_tools.dashboard',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -105,8 +108,17 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     # 'django.contrib.admindocs',
-    'axes',
+	'edupay',
+	'edupay.api',
+	#'edupay.webapp',
     'webapp',
+    'axes',
+    'djangorestframework',
+    'django_tables',
+    'django_tables.app',
+    'pagination',
+	'south',
+	'djcelery'
 )
 
 # session-specific settings
@@ -131,3 +143,72 @@ try:
     from local_settings import *
 except ImportError:
     pass
+	
+try:
+    import celeryconfig
+except ImportError:
+    pass
+
+# Open edupay for transaction processing
+import multiprocessing
+#import api.tasks as tasks
+from api.queues import Tasks
+
+q = multiprocessing.Queue()
+#Tasks().process(q=q, i={}, t=0)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'special': {
+            #'()': 'project.logging.SpecialFilter',
+            'foo': 'bar',
+        }
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['special']
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers':['null'],
+            'propagate': True,
+            'level':'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'myproject.custom': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'INFO',
+            'filters': ['special']
+        }
+    }
+}
+
+SERIALIZATION_MODULES = {
+    'csv': 'snippetscream.csv_serializer',
+}

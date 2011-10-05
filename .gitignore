@@ -1,0 +1,9 @@
+nbproject
+.listing
+*/.listing
+*.tar.gz
+gitstatus
+local_settings.py
+settings.py
+*.pyc
+.gitignore~

@@ -1,0 +1,106 @@
+{% extends "layout_user.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="block">
+	{% if flash %}
+	<div class="flash">
+		{% for type, message in flash.items %}
+			<div class="message {{ type }}">
+				<p>{{ message|safe }}</p>
+			</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+    <div class="secondary-navigation">
+		<ul class="wat-cf">
+			<li class="first"><a href="{% url list-users %}">Bank Tellers</a></li>
+			<li><a href="{% url add-user %}">Create Teller</a></li>
+			<li class="active"><a href="{% url display-reports page %}">View Reports</a></li>
+		</ul>
+	</div>
+	<div class="content">
+		<h2 class="title">View Reports</h2>
+		<div class="inner">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                    <th class="first">S/N</th>
+                                    <th>Amount</th>
+                                    <th>Teller No.</th>
+                                    <th>Paid</th>
+                                    <th>University</th>
+                                    <th>Bank</th>
+                                    <th>Bank branch</th>
+                                    <th>Paid date</th>
+                                    <th class="last">Updated</th>
+                            </tr>
+                            {% for obj in contents.object_list %}
+                                <tr class="{% cycle 'odd' 'even' %}">
+                                    <td>{{ obj.id }}</td>
+                                    <td>{{ obj.amount }}</td>
+                                    <td>{{ obj.teller_no }}</td>
+                                    <td>{{ obj.paid }}</td>
+                                    <td>{{ obj.institution_id }}</td>
+                                    <td>{{ obj.financial_institution_id }}</td>
+                                    <td>{{ obj.branch_name_id }}</td>
+                                    <td>{{ obj.created }}</td>
+                                    <td>{{ obj.updated }}</td>
+                                </tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            {% for column in table.columns %}
+                            <th {% if forloop.first %} class="first" {% endif %} {% if forloop.last %} class="last" {% endif %} class="table-header">
+                                {% if column.sortable %}
+                                  <a href="?sort={{ column.name_toggled }}">
+                                    {{ column }}  
+                                  </a>
+                                {% endif %}
+                            </th>
+                            {% endfor %}
+                        </tr>
+                        {% for row in table.rows %}
+                          <tr class="{% cycle 'odd' 'even' %}">
+                          {% for value in row %}
+                            <td class="table-data">{{ value }}<td>
+                          {% endfor %}
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>{{contents.number}}{{contents.object_list}}
+                    <div class="actions-bar wat-cf">
+                        <div class="actions">
+                                <button class="button" type="submit">
+                                        <img src="/assets/images/icons/minus-circle.png" alt="Save"> Delete
+                                </button>
+                                <a target="_blank" href="{% url print-to-csv %}?page={{contents.number}}" class="button"><img src="/assets/images/icons/cross.png" alt="Cancel"> Print to CSV</a>
+                        </div>
+                        <div class="pagination">
+                            <span class="disabled prev_page">
+                            {% if contents.has_previous %}
+                             <a href = "?page = {{contents.previous_page_number}}"> Previous </a>
+                             {% endif %}
+                             <span class="current">
+                             {% for page_number in total_pages_list %}
+                                   {% ifequal page_number contents.number %}
+                                   <a href="?page={{page_number}}" class="clsActive" title="Current Page">{{contents.number}}</a>
+                                   {% else %}
+                                   <a id = "currentpage" class = "currentpage" href="?page={{page_number}}">{{page_number}}</a>
+                                   {% endifequal %}
+                             {% endfor %}
+                             </span>
+
+                             {% if contents.has_next %}
+                              <a rel="next" class="next_page" href="?page={{contents.next_page_number}}"> Next </a>
+                             {% endif %}
+                            </span>
+                         </div
+                    </div>
+                </div>
+        </div>
+</div>
+{% endblock %}
